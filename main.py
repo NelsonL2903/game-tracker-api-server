@@ -12,6 +12,6 @@ app = FastAPI()
 async def search(search_query: str):
     API_KEY = config("RAWG_API_KEY")
     search_url = f"https://api.rawg.io/api/games?key={API_KEY}&page_results=5&page=1&search={search_query}&search_precise=true"
-    search_results = requests.get(search_url).json()
-    parsed_search_results = map(parse_search_results, search_results["results"])
+    search_results = requests.get(search_url).json().get("results")
+    parsed_search_results = parse_search_results(search_results)
     return parsed_search_results
