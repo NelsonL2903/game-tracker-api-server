@@ -4,6 +4,8 @@ from fastapi import FastAPI
 from decouple import config
 import requests
 from utils import parse_search_results
+from prisma import Prisma
+import asyncio
 
 app = FastAPI()
 
@@ -15,3 +17,12 @@ async def search(search_query: str):
     search_results = requests.get(search_url).json().get("results")
     parsed_search_results = parse_search_results(search_results)
     return parsed_search_results
+
+
+@app.get("/database_connection")
+async def database_connection():
+    db = Prisma()
+    await db.connect()
+
+    await db.disconnect()
+    return {"status": "connected"}
