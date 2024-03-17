@@ -12,6 +12,11 @@ def parse_search_results(results):
             genres=[
                 genre.get("name") for genre in game.get("genres", []) if len(genre) > 0
             ],
+            platforms=[
+                platform.get("platform").get("name")
+                for platform in game.get("platforms", [])
+                if len(platform) > 0
+            ],
         )
         for game in results
     ]
